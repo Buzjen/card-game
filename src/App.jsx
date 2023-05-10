@@ -5,7 +5,7 @@ import { Auth } from "./Pages/Auth";
 import { Configuration } from "./Pages/Configuration";
 import { NotFound } from "./Pages/NotFound";
 
-const App = () => {
+export const App = () => {
   return (
     <div className="w-screen h-screen bg-gradient-to-r from-purple-500 to-pink-500 overflow-x-hidden  overflow-y-hidden">
       <Header />
@@ -18,5 +18,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;

@@ -16,7 +16,7 @@ export const Auth = () => {
 
   return (
     <form
-      className="container mx-auto max-w-[350px] pt-8 h-screen w-screen"
+      className="container mx-auto max-w-[400px] max-h-[550px] pt-8 h-screen w-screen bg-purple-400 py-2 px-2 mt-4 shadow-md rounded-md"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="mb-2">
