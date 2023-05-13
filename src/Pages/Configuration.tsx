@@ -1,29 +1,35 @@
 import { useState } from "react";
 import { useDebounce } from "../Hooks/useDebounce";
-import { useDispatch } from "react-redux";
-import { addWords } from "../Redux/word/word.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { addWords, deleteWords } from "../Redux/word/word.slice";
 import { LANGUAGES } from "../assets";
 
 export const Configuration = () => {
+  const { words } = useSelector((state) => state.wordSlice);
   const [russianWord, setRussianWord] = useState("");
   const [englishWord, setEnglishWord] = useState("");
   const dispatch = useDispatch();
 
   const addWordsToStorage = () => {
     const newWord = {
-      [LANGUAGES.en]: englishWord,
-      [LANGUAGES.ru]: russianWord,
+      [LANGUAGES.en]: englishWord.trim(),
+      [LANGUAGES.ru]: russianWord.trim(),
+      id: words.length,
     };
     if (englishWord.length && russianWord.length !== 0) {
       dispatch(addWords(newWord));
     }
   };
 
-  const russian = (e) => {
+  const removeWordsFromStorage = () => {
+    dispatch(deleteWords);
+  };
+
+  const russian = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRussianWord(e.target.value);
   };
 
-  const english = (e) => {
+  const english = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEnglishWord(e.target.value);
   };
 
@@ -41,7 +47,7 @@ export const Configuration = () => {
         <p className="flex mb-10 justify-center text-xl border-b-2">
           Add word with translate
         </p>
-        <div className="flex justify-between text-xl">
+        <div className="flex justify-between text-xl mb-14">
           <label>Russian</label>
           <label>English</label>
         </div>
@@ -59,9 +65,15 @@ export const Configuration = () => {
         />
         <div
           onClick={addWordsToStorage}
-          className="flex items-center justify-center mt-10 text-xl w-auto h-9 border rounded-md bg-pink-300 hover:bg-pink-400 cursor-pointer transition-all"
+          className="flex items-center justify-center mt-10 text-xl w-auto h-9 border rounded-md bg-red-400 hover:bg-red-600 text-white cursor-pointer transition-all"
         >
           <p>Added Words</p>
+        </div>
+        <div
+          onClick={removeWordsFromStorage}
+          className="flex items-center justify-center mt-6 text-xl w-auto h-9 border rounded-md bg-pink-300 hover:bg-pink-400 cursor-pointer transition-all"
+        >
+          <p>Delete Words</p>
         </div>
       </div>
     </div>

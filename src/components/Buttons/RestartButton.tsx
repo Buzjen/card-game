@@ -1,6 +1,10 @@
-import React from "react";
+interface RestartButtonProps {
+  restartGame: () => void;
+}
 
-export const RestartButton = ({ restartGame }) => {
+export const RestartButton: React.FC<RestartButtonProps> = ({
+  restartGame,
+}) => {
   return (
     <>
       <button
