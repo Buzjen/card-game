@@ -20,7 +20,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="container flex justify-between pt-10 mx-auto h-screen w-screen box-border p-0">
+    <div className="container flex justify-start pt-10 mx-auto h-screen w-screen box-border p-0">
       <Menu
         selectOnRuLanguage={selectOnRuLanguage}
         selectOnEnLanguage={selectOnEnLanguage}

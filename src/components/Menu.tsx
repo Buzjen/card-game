@@ -27,7 +27,7 @@ export const Menu: React.FC<MenuProps> = ({
   };
 
   return (
-    <div className="flex-none justify-center shadow-md mb-20 h-auto w-52 bg-gray-100 rounded-lg relative">
+    <div className="flex-none justify-center shadow-md mb-20 h-[82vh] w-[30vh] bg-gray-100 rounded-lg relative">
       {infoOpen && <InfoMenu showInfo={showInfo} />}
       <div className="flex justify-center border-b rounded-t-md text-xl bg-red-500">
         <h3 className="mt-4 mb-4 text-white">Menu</h3>

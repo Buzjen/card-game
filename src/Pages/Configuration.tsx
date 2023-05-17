@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useDebounce } from "../Hooks/useDebounce";
-import { useDispatch, useSelector } from "react-redux";
 import { addWords, deleteWords } from "../Redux/word/word.slice";
 import { LANGUAGES } from "../assets";
+import { useAppDispatch, useAppSelector } from "../Hooks/ReduxHooks";
 
 export const Configuration = () => {
-  const { words } = useSelector((state) => state.wordSlice);
+  const { words } = useAppSelector((state) => state.wordSlice);
   const [russianWord, setRussianWord] = useState("");
   const [englishWord, setEnglishWord] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addWordsToStorage = () => {
     const newWord = {
@@ -35,6 +35,8 @@ export const Configuration = () => {
 
   const debounceRu = useDebounce(russian);
   const debounceEn = useDebounce(english);
+
+  console.log(russianWord);
 
   return (
     <div className="container flex justify-center mx-auto relative h-[580px] mb-20">

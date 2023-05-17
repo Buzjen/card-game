@@ -5,9 +5,13 @@ import { LANGUAGES } from "../assets";
 import { StartButton } from "./Buttons/StartButton";
 import { ConfirmButton } from "./Buttons/ConfirmButton";
 import { RestartButton } from "./Buttons/RestartButton";
-import { Correct } from "./ResponseStatus/Correct";
-import { Failed } from "./ResponseStatus/Failed";
-import { useSelector } from "react-redux";
+import {
+  deleteWords,
+  incrementCount,
+  removeCount,
+} from "../Redux/word/word.slice";
+import { ResponseBuffer } from "./ResponseBuffer";
+import { useAppDispatch, useAppSelector } from "../Hooks/ReduxHooks";
 
 interface ContentProps {
   currentLanguage: LANGUAGES;
@@ -22,7 +26,7 @@ export const Content: React.FC<ContentProps> = ({
   gameSession,
   setInGame,
 }) => {
-  const { words } = useSelector((state) => state.wordSlice);
+  const { words } = useAppSelector((state) => state.wordSlice);
   const [myAnswer, setMyAnswer] = useState("");
   const [currentWord, setCurrentWord] = useState(0);
   const [correct, setCorrcet] = useState(false);
@@ -30,6 +34,7 @@ export const Content: React.FC<ContentProps> = ({
   const [gameIsOver, setGameIsOver] = useState(false);
   const [buffer, setBuffer] = useState(false);
   const [helpInfo, setHelpInfo] = useState(false);
+  const dispatch = useAppDispatch();
 
   const answer = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMyAnswer(e.target.value);
@@ -48,9 +53,14 @@ export const Content: React.FC<ContentProps> = ({
     ) {
       setCorrcet(true);
       setResponseStatus(true);
+      dispatch(incrementCount(words[currentWord].id));
     } else {
       setCorrcet(false);
       setResponseStatus(true);
+      dispatch(removeCount(words[currentWord].id));
+    }
+    if (words[currentWord].count === 2) {
+      dispatch(deleteWords(words[currentWord].id));
     }
   };
 
@@ -80,7 +90,7 @@ export const Content: React.FC<ContentProps> = ({
   };
 
   return (
-    <div className="flex-none justify-center shadow-md ml-10 mb-20 h-auto w-[1000px] bg-gray-100 rounded-lg relative">
+    <div className="flex-none justify-center shadow-md ml-10 mb-20 h-[82vh] w-[160vh] bg-gray-100 rounded-lg relative">
       <div className="flex justify-center border-b rounded-t-md text-xl bg-red-500 text-white">
         <h3 className="mt-4 mb-4 text-xl">Game</h3>
       </div>
@@ -144,22 +154,13 @@ export const Content: React.FC<ContentProps> = ({
           )}
         </div>
       ) : (
-        <div className="align-middle justify-center">
-          <div className="flex justify-center mt-10 text-xl">
-            For this word, right in a row: {words[currentWord].count}
-          </div>
-          <div className="flex-none m-auto justify-center mt-16 text-xl">
-            {responseStatus && <>{correct ? <Correct /> : <Failed />}</>}
-          </div>
-          <div className="flex justify-center mt-16">
-            <button
-              onClick={nextWord}
-              className="border h-10 w-40 bg-pink-300 hover:bg-pink-400 rounded-md transition-all text-xl"
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        <ResponseBuffer
+          nextWord={nextWord}
+          responseStatus={responseStatus}
+          correct={correct}
+          words={words}
+          currentWord={currentWord}
+        />
       )}
     </div>
   );

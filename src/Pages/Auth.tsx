@@ -14,10 +14,12 @@ interface IFormInput {
 }
 
 export const Auth = () => {
-  const uploadField = (event) => {
+  const uploadField = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) return;
+    if (!event.target.files) return;
     if (event.target.files[0].size > 2400000) {
       alert("файл слишком большой");
-      event.preventDefault();
+      event.target.value = "";
     }
   };
 

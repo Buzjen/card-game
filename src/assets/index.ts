@@ -5,7 +5,7 @@ export enum LANGUAGES {
 
 export interface Word extends Record<LANGUAGES, string> {
   id: number;
-  count?: number;
+  count: number;
 }
 
 export const Words: Word[] = [
